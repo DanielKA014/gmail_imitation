@@ -11,16 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('composes', function (Blueprint $table) {
+        Schema::create('emails', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('pesan_id');
-            $table->string('kepada');
-            $table->string('subjek');
-            $table->text('pesan');
+            $table->foreignId('from')->references('id')->on('users');
+            $table->foreignId('to')->references('id')->on('users');
+            $table->string('subject');
+            $table->text('body');
             $table->string('file');
-
-            $table->foreign('pesan_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
+
+
         });
     }
 
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('composes');
+        Schema::dropIfExists('emails');
     }
 };
