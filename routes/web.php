@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DraftController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -8,4 +10,8 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [HomeController::class, 'index'])->name('home');
+
+Route::get('/email/drafts', [DraftController::class, 'saveDraftEmail'])->name('email.drafts');
+
+Route::get('/email/send/{id}', [DraftController::class, 'send'])->name('email.send');
