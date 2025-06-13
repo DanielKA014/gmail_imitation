@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <form action="{{ route('email.store') }}" method="post">
+    <form action="{{ route('email.store') }}" method="post" enctype="multipart/form-data">
         @csrf
         <div>
             <label for="from">From</label>
@@ -35,9 +35,9 @@
             <label for="file">File</label>
             <input type="file" name="file" id="">
         </div>
-        <div>
-            <button type="submit">Send</button>
-        </div>
+
+        <button type="submit" name="action" value="draft">Simpan ke Draft</button>
+        <button type="submit" name="action" value="send">Kirim</button>
     </form>
 
     <script>
