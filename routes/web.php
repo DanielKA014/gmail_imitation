@@ -13,6 +13,6 @@ Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::get('/email/drafts', [DraftController::class, 'saveDraftEmail'])->name('email.drafts');
+Route::get('/email/draft', [DraftController::class, 'saveDraftEmail'])->name('email.draft');
 
 Route::get('/email/send/{id}', [DraftController::class, 'send'])->name('email.send');
