@@ -5,8 +5,9 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DraftController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('auth.login');
 });
+Route::resource('email', App\Http\Controllers\EmailController::class);
 
 Auth::routes();
 

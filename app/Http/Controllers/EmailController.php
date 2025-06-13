@@ -2,16 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Email;
+use App\Models\User;
 use Illuminate\Http\Request;
 
-class compose extends Controller
+class EmailController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        return view("email.index");
     }
 
     /**
@@ -19,7 +21,8 @@ class compose extends Controller
      */
     public function create()
     {
-        //
+        $users = User::where('id', '<>', auth()->id())->get();
+        return view("email.create", compact("users"));
     }
 
     /**
@@ -27,7 +30,15 @@ class compose extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            "to"=>["required"],
+            "subject"=>["required"],
+            "body"=>["required"],
+            "file"=>["nullable", "file"]]
+        );
+
+        Email::create($validated);
+        return redirect()->route("email.index")->with("success","Sudah Terkirim");
     }
 
     /**
@@ -47,18 +58,11 @@ class compose extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-        //
+        Email::destroy($id);
+        return redirect()->back()->with("success","Email berhasil dihapus");
     }
 }
