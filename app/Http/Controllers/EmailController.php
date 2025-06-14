@@ -13,7 +13,10 @@ class EmailController extends Controller
      */
     public function index()
     {
-        return view("email.index");
+        $emails = Email::where('from', auth()->id())->where('is_draft', false)->get();
+        $drafts = Email::where('from', auth()->id())->where('is_draft', true)->get();
+
+        return view('email.index', compact('emails', 'drafts'));
     }
 
     /**
@@ -28,17 +31,32 @@ class EmailController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, $id = null, $isDraft = false)
     {
         $validated = $request->validate([
-            "to"=>["required"],
-            "subject"=>["required"],
-            "body"=>["required"],
-            "file"=>["nullable", "file"]]
-        );
+            "to"=>["required","exist:users,id"],
+            "subject"=>["required","string"],
+            "body"=>["required","string"],
+            "file"=>["nullable","file","max:20480"], //max image 20mb
+        ]);
+
+        // Simpan file jika ada
+        if ($request->hasFile('file')) {
+            $validated['file_path'] = $request->file('file')->store('attachments', 'public');
+        }
+
+        $validated['from'] = auth()->id();
+        $validated['is_draft'] = $request->action === $isDraft;
+
+        if ($id) {
+            Email::where('id', $id)->update($validated);
+        } else {
+            Email::create($validated);
+        }
 
         Email::create($validated);
-        return redirect()->route("email.index")->with("success","Sudah Terkirim");
+
+        return redirect()->route('email.index')->with('success', $isDraft ? 'Disimpan ke draft' : 'Email dikirim');
     }
 
     /**
@@ -64,5 +82,15 @@ class EmailController extends Controller
     {
         Email::destroy($id);
         return redirect()->back()->with("success","Email berhasil dihapus");
+    }
+
+    public function storeDraft(Request $request)
+    {
+        return $this->store($request, true);
+    }
+
+    public function send(Request $request, $id = null)
+    {
+        return $this->store($request, false, $id);
     }
 }

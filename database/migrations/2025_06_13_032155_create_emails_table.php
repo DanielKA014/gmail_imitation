@@ -19,7 +19,7 @@ return new class extends Migration
             $table->text('body');
             $table->string('file');
             $table->timestamps();
-
+            $table->boolean('is_draft')->default(false);
 
         });
     }
@@ -30,5 +30,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('emails');
+        Schema::table('emails', function(Blueprint $table) {
+            $table->dropColumn('is_draft');
+        });
     }
 };
