@@ -15,3 +15,6 @@ Auth::routes();
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::post('/email/store', [EmailController::class, 'store'])->name('email.store');
+
+Route::middleware('auth')->get('/emails/all', [EmailController::class, 'viewAll']);
+
