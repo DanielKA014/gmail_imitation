@@ -17,10 +17,10 @@ return new class extends Migration
             $table->foreignId('to')->references('id')->on('users');
             $table->string('subject');
             $table->text('body');
-            $table->string('file');
+            $table->string('file')->nullable();
+            $table->string('file_path')->nullable();
             $table->timestamps();
             $table->boolean('is_draft')->default(false);
-
         });
     }
 

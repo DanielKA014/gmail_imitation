@@ -12,6 +12,7 @@
             <th>to</th>
             <th>subject</th>
             <th>body</th>
+            <th>file</th>
         </tr>
         @foreach ($emails as $email)
         <tr>
@@ -19,6 +20,7 @@
             <td>{{ $email->to }}</td>
             <td>{{ $email->subject }}</td>
             <td>{{ $email->body }}</td>
+            <td>{{ $email->file_path}}</td>
         </tr>
         @endforeach
     </table>
