@@ -18,3 +18,6 @@ Route::post('/email/store', [EmailController::class, 'store'])->name('email.stor
 
 Route::middleware('auth')->get('/emails/all', [EmailController::class, 'viewAll']);
 
+Route::middleware('auth')->group(function () {
+    Route::get('/api/emails/sent', [EmailController::class, 'getSentEmails']);
+});

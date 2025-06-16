@@ -123,4 +123,20 @@ public function viewAll()
 
 }
 
+public function getSentEmails()
+{
+    $user = auth()->user(); 
+
+    $sentEmails = Email::where('from', $user->id)
+                       ->where('is_draft', false)
+                       ->orderBy('created_at', 'desc')
+                       ->get();
+
+    return response()->json([
+        'status' => 'success',
+        'data' => $sentEmails
+    ]);
+}
+
+
 }
