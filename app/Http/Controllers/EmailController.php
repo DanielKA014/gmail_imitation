@@ -34,7 +34,7 @@ class EmailController extends Controller
     public function store(Request $request, $id = null, $isDraft = false)
     {
         $validated = $request->validate([
-            "to"=>["required","exist:users,id"],
+            "to"=>["required","exists:users,id"],
             "subject"=>["required","string"],
             "body"=>["required","string"],
             "file"=>["nullable","file","max:20480"], //max image 20mb
@@ -54,7 +54,6 @@ class EmailController extends Controller
             Email::create($validated);
         }
 
-        Email::create($validated);
 
         return redirect()->route('email.index')->with('success', $isDraft ? 'Disimpan ke draft' : 'Email dikirim');
     }
