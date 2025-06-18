@@ -75,9 +75,9 @@ class EmailController extends Controller
             'image' => 'nullable|image|max:2048' // max 2MB
         ]);
 
-        $imagePath = null;
+        $filePath = null;
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('email-images', 'public');
+            $filePath = $request->file('image')->store('email-images', 'public');
         }
 
         Email::create([
@@ -85,7 +85,7 @@ class EmailController extends Controller
             'from' => auth()->user()->email,
             'subject' => $validated['subject'],
             'body' => $validated['body'],
-            'image_path' => $imagePath
+            'file_path' => $filePath
         ]);
 
         return redirect()->route('home')->with('success', 'Email sent successfully');
