@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\FavouriteEmail;
+use App\Models\Favorite;
 use Illuminate\Http\Request;
 
-class FavouriteEmailController extends Controller
+class FavoriteEmailController extends Controller
 {
      /**
      * Add an email to favorites.
@@ -16,7 +16,7 @@ class FavouriteEmailController extends Controller
             'email_id' => 'required|exists:emails,id',
         ]);
 
-        $favoriteEmail = new FavoriteEmail();
+        $favoriteEmail = new Favorite();
         $favoriteEmail->user_id = auth()->id();
         $favoriteEmail->email_id = $request->email_id;
         $favoriteEmail->save();
@@ -29,7 +29,7 @@ class FavouriteEmailController extends Controller
      */
     public function getFavorites()
     {
-        $favorites = FavoriteEmail::where('user_id', auth()->id())->with('email')->get();
+        $favorites = Favorite::where('user_id', auth()->id())->with('email')->get();
         return view('email.favorites', compact('favorites'));
     }
 }
