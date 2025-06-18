@@ -38,7 +38,7 @@ class EmailController extends Controller
             $favorite->delete();
             $message = 'Email removed from favorites';
         } else {
-            // Add to favorites
+            // Add to favorites 
             Favorite::create([
                 'email_id' => $email->id,
                 'user_id' => auth()->id()
@@ -60,12 +60,6 @@ class EmailController extends Controller
         return view('home', compact('emails', 'favoriteCount'));
     }
 
-    public function drafts()
-    {
-        $emails = Email::where('is_draft', true)->get();
-        $favoriteCount = Email::where('is_favorite', true)->count();
-        return view('home', compact('emails', 'favoriteCount'));
-    }
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -80,12 +74,15 @@ class EmailController extends Controller
             $filePath = $request->file('image')->store('email-images', 'public');
         }
 
+        $isDraft = $request->input('action') === 'draft';
+
         Email::create([
             'to' => $validated['to'],
             'from' => auth()->user()->email,
             'subject' => $validated['subject'],
             'body' => $validated['body'],
-            'file_path' => $filePath
+            'file_path' => $filePath,  
+            'is_draft' => false,
         ]);
 
         return redirect()->route('home')->with('success', 'Email sent successfully');
@@ -106,23 +103,13 @@ class EmailController extends Controller
     public function index()
     {
         $emails = Email::where('from', auth()->id())->where('is_draft', false)->get();
-        $drafts = Email::where('from', auth()->id())->where('is_draft', true)->get();
 
-        return view('email.index', compact('emails', 'drafts'));
+        return view('email.index', compact('emails'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    public function storeDraft(Request $request)
-    {
-        return $this->store($request);
-    }
 
     public function send(Request $request)
     {

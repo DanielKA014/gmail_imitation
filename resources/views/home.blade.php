@@ -252,6 +252,11 @@
                     <i class="fas fa-star"></i> Starred
                     <span class="count">{{ $favoriteCount ?? 0 }}</span>
                 </a>
+
+                <a href="{{ route('emails.drafts') }}" class="menu-item {{ request()->routeIs('emails.drafts') ? 'active' : '' }}">
+                    <i class="fas fa-file-alt"></i> Drafts
+                    <span class="count">{{ $draftCount ?? 0 }}</span>
+                </a>
                 
                 <a href="{{ route('emails.sent') }}" class="menu-item {{ request()->routeIs('emails.sent') ? 'active' : '' }}">
                     <i class="fas fa-paper-plane"></i> Sent
