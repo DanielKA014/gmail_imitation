@@ -1,17 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Email Dashboard</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
-        body {
-            font-family: 'Segoe UI', Arial, sans-serif;
-            background: #f6f8fc;
-            color: #202124;
-            line-height: 1.5;
-        }
+@extends('layouts.app')
 
 @section('content')
     <div class="container">
@@ -38,6 +25,22 @@
         </div>
     </div>
 @endsection
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Email Dashboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f6f8fc;
+            color: #202124;
+            line-height: 1.5;
+        }
+
         .container {
             display: flex;
             min-height: 100vh;
