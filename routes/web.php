@@ -14,7 +14,7 @@ Route::post('/favorites/add', [FavoriteEmailController::class, 'addToFavorites']
 Route::get('/favorites', [FavoriteEmailController::class, 'getFavorites'])->name('favorites.index');
 Route::get('/', function () {
     if (Auth::user()){
-        return view('home');
+        return redirect()->route('home');
     }else{
         return view('auth.login');
     }
