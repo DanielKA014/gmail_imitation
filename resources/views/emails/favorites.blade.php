@@ -1,16 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Email Dashboard</title>
+    <title>Favorite Emails</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
         body {
+            margin: 0;
             font-family: 'Segoe UI', Arial, sans-serif;
             background: #f6f8fc;
             color: #202124;
-            line-height: 1.5;
         }
 
         .container {
@@ -18,14 +16,13 @@
             min-height: 100vh;
         }
 
-        /* Sidebar */
         .sidebar {
             width: 256px;
             background: white;
             padding: 16px;
             position: fixed;
             height: 100vh;
-            box-shadow: 2px 0 4px rgba(0,0,0,0.1);
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
         }
 
         .compose-btn {
@@ -54,7 +51,7 @@
             text-decoration: none;
             color: #202124;
             border-radius: 0 16px 16px 0;
-            margin: 4px 0;
+            transition: background 0.2s;
         }
 
         .menu-item:hover {
@@ -68,10 +65,8 @@
         .menu-item i {
             margin-right: 12px;
             width: 20px;
-            text-align: center;
         }
 
-        /* Main Content */
         .main-content {
             margin-left: 256px;
             flex: 1;
@@ -82,6 +77,7 @@
             background: white;
             border-radius: 16px;
             box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            overflow: hidden;
         }
 
         .email-item {
@@ -110,10 +106,6 @@
             color: #f4b400;
         }
 
-        .star-btn:hover {
-            opacity: 0.8;
-        }
-
         .email-content {
             flex: 1;
             margin: 0 16px;
@@ -122,6 +114,8 @@
         .email-subject {
             font-weight: 500;
             margin-bottom: 4px;
+            color: #202124;
+            text-decoration: none;
         }
 
         .email-preview {
@@ -132,102 +126,66 @@
         .email-date {
             color: #5f6368;
             font-size: 12px;
-            margin-left: 16px;
+            white-space: nowrap;
         }
 
-        .count {
-            margin-left: auto;
-            background: #e8eaed;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-        }
-
-        .logout-btn {
+        .back-btn {
             position: fixed;
-            top: 20px;
+            bottom: 20px;
             right: 20px;
-            background: #dc3545;
+            background: #1a73e8;
             color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 4px;
+            padding: 12px 24px;
+            border-radius: 24px;
             cursor: pointer;
-            font-size: 14px;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
             transition: background 0.2s;
         }
 
-        .logout-btn:hover {
-            background: #bb2d3b;
+        .back-btn:hover {
+            background: #1557b0;
+        }
+
+        .email-link {
+            text-decoration: none;
+            color: inherit;
+        }
+        .email-link:hover {
+            text-decoration: underline;
         }
     </style>
 </head>
 <body>
-    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-        @csrf
-        <button type="submit" class="logout-btn">
-            <i class="fas fa-sign-out-alt"></i> Logout
-        </button>
-    </form>
-
     <div class="container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <button onclick="window.location.href='{{ route('emails.create') }}'" class="compose-btn">
-                <i class="fas fa-plus"></i> Compose
-            </button>
+        <!-- ... existing sidebar code ... -->
 
-            <nav class="menu-list">
-                <a href="{{ route('home') }}" class="menu-item {{ request()->routeIs('home') ? 'active' : '' }}">
-                    <i class="fas fa-inbox"></i> Inbox
-                    <span class="count">{{ ($emails ?? collect([]))->count() }}</span>
-                </a>
-                
-                <a href="{{ route('emails.favorites') }}" class="menu-item {{ request()->routeIs('emails.favorites') ? 'active' : '' }}">
-                    <i class="fas fa-star"></i> Starred
-                    <span class="count">{{ $favoriteCount ?? 0 }}</span>
-                </a>
-                
-                <a href="{{ route('emails.sent') }}" class="menu-item {{ request()->routeIs('emails.sent') ? 'active' : '' }}">
-                    <i class="fas fa-paper-plane"></i> Sent
-                    <span class="count">{{ $sentCount ?? 0 }}</span>
-                </a>
-            </nav>
-        </div>
-
-        <!-- Main Content -->
         <div class="main-content">
-            @if(session('error'))
-                <div class="alert alert-danger">{{ session('error') }}</div>
-            @endif
-
             <div class="email-list">
-                @forelse($emails ?? collect([]) as $email)
+                @forelse($emails as $email)
                     <div class="email-item">
                         <form action="{{ route('emails.toggle-favorite', $email) }}" method="POST">
                             @csrf
-                            <button type="submit" class="star-btn {{ $email->favorites()->where('user_id', auth()->id())->exists() ? 'active' : '' }}">
+                            <button type="submit" class="star-btn">
                                 <i class="fas fa-star"></i>
                             </button>
                         </form>
 
-                        <div class="email-content" onclick="window.location.href='{{ route('emails.show', $email->id) }}'">
-                            <div class="email-subject">{{ $email->subject }}</div>
-                            <div class="email-preview">
-                                <span class="email-sender">{{ $email->from }}</span> -
-                                {{ Str::limit($email->body, 100) }}
-                            </div>
+                        <div class="email-content">
+                            <a href="{{ route('emails.show', $email) }}" class="email-link">
+                                <div class="email-subject">{{ $email->subject }}</div>
+                                <div class="email-sender">From: {{ $email->from }}</div>
+                                <div class="email-preview">{{ Str::limit($email->body, 100) }}</div>
+                            </a>
                         </div>
 
-                        <div class="email-date">{{ $email->created_at->format('M d') }}</div>
+                        <div class="email-date">
+                            {{ $email->created_at->format('M d') }}
+                        </div>
                     </div>
                 @empty
                     <div class="email-item">
-                        <p>No emails found.</p>
+                        <p>No favorite emails found.</p>
                     </div>
                 @endforelse
             </div>

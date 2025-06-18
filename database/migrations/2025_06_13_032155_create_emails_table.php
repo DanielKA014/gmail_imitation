@@ -6,32 +6,27 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
-    public function up(): void
+    public function up()
     {
         Schema::create('emails', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('from')->references('id')->on('users');
-            $table->foreignId('to')->references('id')->on('users');
             $table->string('subject');
             $table->text('body');
+            $table->string('from');
+            $table->string('to');
             $table->string('file')->nullable();
             $table->string('file_path')->nullable();
-            $table->timestamps();
             $table->boolean('is_draft')->default(false);
+            $table->boolean('is_favorite')->default(false);
+            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
-    public function down(): void
+    public function down()
     {
-        Schema::dropIfExists('emails');
-        Schema::table('emails', function(Blueprint $table) {
-            $table->dropColumn('is_draft');
+         Schema::table('emails', function (Blueprint $table) {
+            $table->dropColumn('image_path');
         });
+        Schema::dropIfExists('emails');
     }
 };
