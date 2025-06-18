@@ -2,27 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\Email;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index()
     {
-        return view('home');
+        try {
+            $viewData = [
+                'emails' => Email::latest()->get(),
+                'favoriteCount' => Email::where('is_favorite', true)->count(),
+                'sentCount' => Email::where('is_draft', false)->count()
+            ];
+
+            return view('home', $viewData);
+        } catch (\Exception $e) {
+            return view('home', [
+                'emails' => collect([]),
+                'favoriteCount' => 0,
+                'sentCount' => 0,
+                'error' => 'Could not load emails'
+            ]);
+        }
     }
 }
