@@ -80,7 +80,7 @@ class EmailController extends Controller
     public function destroy(string $id)
     {
         Email::destroy($id);
-        return redirect()->back()->with("success","Email berhasil dihapus");
+        return redirect()->back()->with("success", "Email berhasil dihapus");
     }
 
     public function storeDraft(Request $request)
