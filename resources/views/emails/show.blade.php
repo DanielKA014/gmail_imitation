@@ -124,9 +124,9 @@
         <div class="email-body">
             {{ $email->body }}
             
-            @if($email->image_path)
+            @if($email->file_path)
                 <div class="email-image">
-                    <img src="{{ asset('storage/' . $email->image_path) }}" alt="Email attachment">
+                    <img src="{{ asset('storage/' . $email->file_path) }}" alt="Email attachment">
                 </div>
             @endif
         </div>

@@ -14,7 +14,6 @@ return new class extends Migration
             $table->text('body');
             $table->string('from');
             $table->string('to');
-            $table->string('file')->nullable();
             $table->string('file_path')->nullable();
             $table->boolean('is_draft')->default(false);
             $table->boolean('is_favorite')->default(false);
@@ -24,9 +23,6 @@ return new class extends Migration
 
     public function down()
     {
-         Schema::table('emails', function (Blueprint $table) {
-            $table->dropColumn('image_path');
-        });
         Schema::dropIfExists('emails');
     }
 };

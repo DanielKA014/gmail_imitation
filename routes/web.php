@@ -44,6 +44,6 @@ Route::middleware('auth')->group(function () {
 
 Route::delete('/user/delete/{id}', [UserController::class, 'destroy'])->name('user.destroy');
 
-Route::middleware('auth')->get('user/delete', function () {
+Route::middleware(['auth'])->get('user/delete', function () {
     return view('auth.delete');
 })->name('user.delete.confirm');

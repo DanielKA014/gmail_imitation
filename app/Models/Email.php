@@ -9,7 +9,7 @@ class Email extends Model
     public function user(){
     return $this->belongTo(User::class);
 }
-protected $fillable = ['to','from','subject','body','image_path','is_favorite','is_draft'];
+protected $fillable = ['to','from','subject','body','file_path','is_favorite','is_draft'];
 
     protected $casts = [
         'is_draft' => 'boolean',
