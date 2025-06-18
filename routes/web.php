@@ -7,7 +7,11 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
-    return view('auth.login');
+    if (Auth::user()){
+        return view('home');
+    }else{
+        return view('auth.login');
+    }
 });
 Route::resource('email', EmailController::class);
 
