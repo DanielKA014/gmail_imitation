@@ -66,10 +66,10 @@
                     <i class="fas fa-star"></i> Starred
                 </div>
                 <div class="menu-item">
-                    <i class="fas fa-paper-plane"></i> Sent
+                    <i class="fas fa-file"></i> Drafts
                 </div>
                 <div class="menu-item">
-                    <i class="fas fa-file"></i> Drafts
+                    <i class="fas fa-paper-plane"></i> Sent
                 </div>
             @show
         </div>

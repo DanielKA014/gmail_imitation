@@ -39,6 +39,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/emails/{email}', [EmailController::class, 'show'])->name('emails.show');
     Route::get('/emails/sent', [EmailController::class, 'sent'])->name('emails.sent');
     Route::get('/emails/favorites', [EmailController::class, 'favorites'])->name('emails.favorites');
+    Route::get('/emails/drafts', [DraftController::class, 'drafts'])->name('emails.drafts');
 });
 });
 

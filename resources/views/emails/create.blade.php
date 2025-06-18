@@ -30,6 +30,10 @@
         <form action="{{ route('emails.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
+                <label>From:</label>
+                <input type="hidden" name="from" value="{{ Auth::user()->email }}">
+            </div>
+            <div class="form-group">
                 <label>To:</label>
                 <input type="email" name="to" value="{{ old('to') }}" required>
             </div>
@@ -49,8 +53,8 @@
                 <input type="file" name="image" class="file-input" accept="image/*" onchange="previewImage(this)">
                 <img id="preview" class="image-preview" style="display: none;">
             </div>
-
-            <button type="submit">Send Email</button>
+            <button type="submit" name="action" value="draft">Send as Draft</button>
+            <button type="submit" name="action" value="send">Send Email</button>
         </form>
     </div>
 
