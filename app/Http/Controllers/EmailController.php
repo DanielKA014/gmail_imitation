@@ -29,7 +29,7 @@ class EmailController extends Controller
     public function toggleFavorite(Email $email)
     {
         $favorite = Favorite::where([
-            'email_id' => $email->id(),
+            'email_id' => $email->id,
             'user_id' => auth()->id()
         ])->first();
 

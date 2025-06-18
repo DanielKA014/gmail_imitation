@@ -192,6 +192,28 @@
         .logout-btn:hover {
             background: #bb2d3b;
         }
+
+        .delete-account-btn {
+            position: fixed;
+            top: 60px;
+            right: 20px;
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+
+        .delete-account-btn:hover {
+            background: #bb2d3b;
+        }
     </style>
 </head>
 <body>
@@ -202,9 +224,20 @@
         </button>
     </form>
 
+    <form action="{{ route('user.delete.confirm') }}" method="GET" style="display: inline;">
+        @csrf
+        <button type="submit" class="delete-account-btn">
+            <i class="fas fa-user-times"></i> Hapus Akun
+        </button>
+    </form>
+
     <div class="container">
         <!-- Sidebar -->
         <div class="sidebar">
+            <div class="user-info">
+                <div class="user-name">{{ Auth::user()->name }}</div>
+                <div class="user-email">{{ Auth::user()->email }}</div>
+            </div>
             <button onclick="window.location.href='{{ route('emails.create') }}'" class="compose-btn">
                 <i class="fas fa-plus"></i> Compose
             </button>
