@@ -93,4 +93,50 @@ class EmailController extends Controller
     {
         return $this->store($request, false, $id);
     }
+
+public function getSentEmails()
+{
+    $user = auth()->user(); 
+
+    $sentEmails = Email::where('from', $user->id)
+                       ->where('is_draft', false)
+                       ->orderBy('created_at', 'desc')
+                       ->get();
+
+    return response()->json([
+        'status' => 'success',
+        'data' => $sentEmails
+    ]);
+}
+
+public function apiIndex(Request $request)
+{
+    $user = auth()->user();
+
+    $query = Email::where('from', $user->id)->where('is_draft', false);
+
+    // Optional: filter by subject if query param 'subject' diberikan
+    if ($request->has('subject')) {
+        $query->where('subject', 'like', '%' . $request->subject . '%');
+    }
+
+    // Pagination 10 per halaman
+    $emails = $query->paginate(10);
+
+    return response()->json([
+        'status' => 'success',
+        'data' => $emails
+    ]);
+}
+
+public function viewAll()
+{
+ 
+    $user = auth()->user();
+    $emails = Email::where('from', $user->id)->get();
+    return view('email.all', compact('emails'));
+
+}
+
+
 }
