@@ -1,31 +1,3 @@
-@extends('layouts.app')
-
-@section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Dashboard') }}</div>
-
-                    <div class="card-body">
-                        @if (session('status'))
-                            <div class="alert alert-success" role="alert">
-                                {{ session('status') }}
-                            </div>
-                        @endif
-
-                        {{ __('You are logged in!') }}
-
-                        <a href="{{ route('user.delete.confirm') }}" class="btn btn-danger">
-                            Hapus Akun Saya
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-@endsection
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -173,8 +145,9 @@
 
         .logout-btn {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            bottom: 50px;
+            right: 10px;
+            margin-right: 1080px;
             background: #dc3545;
             color: white;
             border: none;
@@ -187,6 +160,7 @@
             align-items: center;
             gap: 8px;
             transition: background 0.2s;
+            z-index: 999;
         }
 
         .logout-btn:hover {
@@ -195,8 +169,9 @@
 
         .delete-account-btn {
             position: fixed;
-            top: 60px;
-            right: 20px;
+            bottom: 20px;
+            right: 10px;
+            margin-right: 1077px;
             background: #dc3545;
             color: white;
             border: none;
@@ -209,6 +184,7 @@
             align-items: center;
             gap: 8px;
             transition: background 0.2s;
+            z-index: 999;
         }
 
         .delete-account-btn:hover {
