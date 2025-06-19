@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Create Email</title>
     <style>
@@ -8,15 +9,17 @@
             max-width: 200px;
             margin-top: 10px;
         }
+
         .file-input {
             margin: 10px 0;
         }
     </style>
 </head>
+
 <body>
     <div class="email-form">
         <h1>New Email</h1>
-        
+
         @if ($errors->any())
             <div style="color: red; margin-bottom: 15px;">
                 <ul>
@@ -32,6 +35,7 @@
             <div class="form-group">
                 <label>From:</label>
                 <input type="hidden" name="from" value="{{ Auth::user()->email }}">
+                <span id="from">{{ auth()->user()->email }}</span>
             </div>
             <div class="form-group">
                 <label>To:</label>
@@ -72,4 +76,5 @@
         }
     </script>
 </body>
+
 </html>

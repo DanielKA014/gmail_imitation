@@ -31,6 +31,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/email', [EmailController::class, 'store'])->name('email.store');
     Route::get('/email/favorites', [EmailController::class, 'favorites'])->name('email.favorites');
     Route::get('/email/drafts', [DraftController::class, 'index'])->name('email.drafts');
+    Route::put('/drafts/send/{email}', [DraftController::class, 'send'])->name('draft.send');
+
+    // harus paling bawah
     Route::resource('email', EmailController::class);
 });
 
@@ -39,12 +42,3 @@ Route::delete('/user/delete/{id}', [UserController::class, 'destroy'])->name('us
 Route::middleware(['auth'])->get('user/delete', function () {
     return view('auth.delete');
 })->name('user.delete.confirm');
-
-
-// Route::middleware('auth')->group(function () {
-//     Route::get('/api/emails/sent', [EmailController::class, 'getSentEmails']);
-// });
-
-// Route::middleware('auth')->get('/emails/all', [EmailController::class, 'viewAll']);
-
-// Route::post('/emails/send', [EmailController::class, 'send'])->name('emails.send');
