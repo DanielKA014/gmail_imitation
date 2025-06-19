@@ -15,7 +15,7 @@ class HomeController extends Controller
     {
         try {
             $viewData = [
-                'emails' => Email::latest()->get(),
+                'email' => Email::latest()->get(),
                 'favoriteCount' => Email::where('is_favorite', true)->count(),
                 'sentCount' => Email::where('is_draft', false)->count()
             ];
@@ -23,7 +23,7 @@ class HomeController extends Controller
             return view('home', $viewData);
         } catch (\Exception $e) {
             return view('home', [
-                'emails' => collect([]),
+                'email' => collect([]),
                 'favoriteCount' => 0,
                 'sentCount' => 0,
                 'error' => 'Could not load emails'

@@ -100,9 +100,9 @@ class EmailController extends Controller
      */
     public function index()
     {
-        $email = Email::where('from', auth()->id())->where('is_draft', false)->get();
+        $emails = Email::where('from', auth()->user()->email)->where('is_draft', false)->orderBy('created_at', 'desc')->get();
 
-        return view('email.index', compact('email'));
+        return view('email.index', compact('emails'));
     }
 
     /**
