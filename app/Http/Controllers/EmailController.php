@@ -59,7 +59,7 @@ class EmailController extends Controller
 
         $email = Email::where('from', auth()->user()->email)
         ->where('is_draft', false)
-        ->orderBy('created_at', 'descending')
+        ->orderBy('created_at', 'desc')
         ->get();
 
          $viewData = [
