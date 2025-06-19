@@ -63,7 +63,7 @@ class EmailController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'to' => ['required', 'email', 'exists:users,email'],
+            'to' => 'required|email',
             'subject' => 'required',
             'body' => 'required',
             'image' => 'nullable|image|max:2048' // max 2MB
@@ -72,7 +72,7 @@ class EmailController extends Controller
         $filePath = null;
         if ($request->hasFile('image')) {
             $filePath = $request->file('image')->store('email-images', 'public');
-    }
+        }
 
         Email::create([
             'to' => $validated['to'],
@@ -83,15 +83,7 @@ class EmailController extends Controller
             'is_draft' => false,
         ]);
 
-        return redirect()->route('home')->with('success', 'Email berhasil dikirim');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return redirect()->route('home')->with('success', 'Email sent successfully');
     }
 
     /**
@@ -165,29 +157,4 @@ class EmailController extends Controller
             'data' => $sentEmail
         ]);
     }
-    
-    // public function apiIndex(Request $request)
-    // {
-    //     $user = auth()->user();
-
-    //     $query = Email::where('from', $user->id)->where('is_draft', false);
-
-    //     // Optional: filter by subject if query param 'subject' diberikan
-    //     if ($request->has('subject')) {
-    //         $query->where('subject', 'like', '%' . $request->subject . '%');
-    //     }
-
-    //     // Pagination 10 per halaman
-    //     $emails = $query->paginate(10);
-
-    //     return response()->json([
-    //         'status' => 'success',
-    //         'data' => $emails
-    //     ]);
-    // }
-
 }
-
-
-
-

@@ -145,8 +145,9 @@
 
         .logout-btn {
             position: fixed;
-            top: 20px;
-            right: 20px;
+            bottom: 50px;
+            right: 10px;
+            margin-right: 1080px;
             background: #dc3545;
             color: white;
             border: none;
@@ -159,6 +160,7 @@
             align-items: center;
             gap: 8px;
             transition: background 0.2s;
+            z-index: 999;
         }
 
         .logout-btn:hover {
@@ -167,8 +169,9 @@
 
         .delete-account-btn {
             position: fixed;
-            top: 60px;
-            right: 20px;
+            bottom: 20px;
+            right: 10px;
+            margin-right: 1077px;
             background: #dc3545;
             color: white;
             border: none;
@@ -181,6 +184,7 @@
             align-items: center;
             gap: 8px;
             transition: background 0.2s;
+            z-index: 999;
         }
 
         .delete-account-btn:hover {
