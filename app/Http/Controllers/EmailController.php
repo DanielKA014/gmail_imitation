@@ -55,9 +55,9 @@ class EmailController extends Controller
     }
     public function sent()
     {
-        $email = Email::where('from', auth()->user()->email)->get();
+        $emails = Email::where('from', auth()->user()->email)->get();
         $favoriteCount = Email::where('is_favorite', true)->count();
-        return view('home', compact('email', 'favoriteCount'));
+        return view('home', compact('emails', 'favoriteCount'));
     }
 
     public function store(Request $request)
