@@ -71,10 +71,13 @@ class EmailController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'to' => 'required|email',
+            'to' => ['required', 'email', 'exists:users,email'],
             'subject' => 'required',
             'body' => 'required',
             'image' => 'nullable|image|max:2048' // max 2MB
+        ],
+        [
+            'to.exists' => 'Alamat email tujuan tidak ada!'
         ]);
 
         if ($request->to === auth()->user()->email){
@@ -97,7 +100,7 @@ class EmailController extends Controller
             'is_draft' => $isDraft,
         ]);
 
-        $message = $isDraft ? 'Draft saved successfully' : 'Email sent successfully';
+        $message = $isDraft ? 'Draf berhasil tersimpan.' : 'Email berhasil terkirim.';
 
         return redirect()->route('home')->with('success', $message);
     }
