@@ -32,6 +32,7 @@
             <div class="form-group">
                 <label>From:</label>
                 <input type="hidden" name="from" value="{{ Auth::user()->email }}">
+                <span id = "from">{{ auth()->user()->email }}</span>
             </div>
             <div class="form-group">
                 <label>To:</label>
