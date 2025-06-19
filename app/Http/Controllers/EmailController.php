@@ -63,7 +63,7 @@ class EmailController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'to' => ['required|email', 'exists:user:email'],
+            'to' => ['required', 'email', 'exists:users,email'],
             'subject' => 'required',
             'body' => 'required',
             'image' => 'nullable|image|max:2048' // max 2MB
@@ -73,8 +73,6 @@ class EmailController extends Controller
         if ($request->hasFile('image')) {
             $filePath = $request->file('image')->store('email-images', 'public');
         }
-
-        $isDraft = $request->input('action') === 'draft';
 
         Email::create([
             'to' => $validated['to'],
