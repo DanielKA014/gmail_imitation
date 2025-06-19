@@ -47,7 +47,7 @@ class EmailController extends Controller
         }
 
         return back()->with('success', $message);
-    }
+        }
 
         public function create()
         {
