@@ -11,10 +11,7 @@ class DraftController extends Controller
      */
     public function index()
     {
-        $drafts = Email::where('from', auth()->user()->email)
-                       ->where('is_draft', true)
-                       ->latest()
-                       ->get();
+        $drafts = Email::where('from', auth()->user()->email)->where('is_draft', true)->get();
 
         return view('emails.drafts', compact('drafts'));
     }

@@ -30,7 +30,6 @@ Route::middleware('auth')->get('/emails/all', [EmailController::class, 'viewAll'
 Route::post('/emails', [EmailController::class, 'store'])->name('emails.store');
 
 Route::middleware('auth')->group(function () {
-    Route::middleware(['auth'])->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
     Route::get('/emails/favorites', [EmailController::class, 'favorites'])->name('emails.favorites');
     Route::get('/emails/create', [EmailController::class, 'create'])->name('emails.create');
@@ -40,7 +39,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/emails/sent', [EmailController::class, 'sent'])->name('emails.sent');
     Route::get('/emails/favorites', [EmailController::class, 'favorites'])->name('emails.favorites');
     Route::get('/emails/drafts', [DraftController::class, 'index'])->name('emails.drafts');
-});
 });
 
 Route::delete('/user/delete/{id}', [UserController::class, 'destroy'])->name('user.destroy');
