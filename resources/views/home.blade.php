@@ -225,7 +225,7 @@
                 </a>
                 
                 <a href="{{ route('email.favorites') }}" class="menu-item {{ request()->routeIs('email.favorites') ? 'active' : '' }}">
-                    <i class="fas fa-star"></i> Starred
+                    <i class="fas fa-star"></i> Favorite
                     <span class="count">{{ $favoriteCount ?? 0 }}</span>
                 </a>
                 <a href="{{ route('email.sent') }}" class="menu-item {{ request()->routeIs('email.sent') ? 'active' : '' }}">
