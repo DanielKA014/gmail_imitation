@@ -238,29 +238,27 @@
                 <div class="user-name">{{ Auth::user()->name }}</div>
                 <div class="user-email">{{ Auth::user()->email }}</div>
             </div>
-            <button onclick="window.location.href='{{ route('emails.create') }}'" class="compose-btn">
+            <button onclick="window.location.href='{{ route('email.create') }}'" class="compose-btn">
                 <i class="fas fa-plus"></i> Compose
             </button>
 
             <nav class="menu-list">
                 <a href="{{ route('home') }}" class="menu-item {{ request()->routeIs('home') ? 'active' : '' }}">
                     <i class="fas fa-inbox"></i> Inbox
-                    <span class="count">{{ ($emails ?? collect([]))->count() }}</span>
+                    <span class="count">{{ ($email ?? collect([]))->count() }}</span>
                 </a>
                 
-                <a href="{{ route('emails.favorites') }}" class="menu-item {{ request()->routeIs('emails.favorites') ? 'active' : '' }}">
+                <a href="{{ route('email.favorites') }}" class="menu-item {{ request()->routeIs('email.favorites') ? 'active' : '' }}">
                     <i class="fas fa-star"></i> Starred
                     <span class="count">{{ $favoriteCount ?? 0 }}</span>
                 </a>
-
-                <a href="{{ route('emails.drafts') }}" class="menu-item {{ request()->routeIs('emails.drafts') ? 'active' : '' }}">
-                    <i class="fas fa-file-alt"></i> Drafts
-                    <span class="count">{{ $draftCount ?? 0 }}</span>
-                </a>
-                
-                <a href="{{ route('emails.sent') }}" class="menu-item {{ request()->routeIs('emails.sent') ? 'active' : '' }}">
+                <a href="{{ route('email.sent') }}" class="menu-item {{ request()->routeIs('email.sent') ? 'active' : '' }}">
                     <i class="fas fa-paper-plane"></i> Sent
                     <span class="count">{{ $sentCount ?? 0 }}</span>
+                </a>
+                <a href="{{ route('email.drafts') }}" class="menu-item {{ request()->routeIs('email.drafts') ? 'active' : '' }}">
+                    <i class="fas fa-file-alt"></i> Drafts
+                    <span class="count">{{ $draftCount ?? 0 }}</span>
                 </a>
             </nav>
         </div>
@@ -272,16 +270,16 @@
             @endif
 
             <div class="email-list">
-                @forelse($emails ?? collect([]) as $email)
+                @forelse($email ?? collect([]) as $email)
                     <div class="email-item">
-                        <form action="{{ route('emails.toggle-favorite', $email) }}" method="POST">
+                        <form action="{{ route('email.toggle-favorite', $email) }}" method="POST">
                             @csrf
                             <button type="submit" class="star-btn {{ $email->favorites()->where('user_id', auth()->id())->exists() ? 'active' : '' }}">
                                 <i class="fas fa-star"></i>
                             </button>
                         </form>
 
-                        <div class="email-content" onclick="window.location.href='{{ route('emails.show', $email->id) }}'">
+                        <div class="email-content" onclick="window.location.href='{{ route('email.show', $email->id) }}'">
                             <div class="email-subject">{{ $email->subject }}</div>
                             <div class="email-preview">
                                 <span class="email-sender">{{ $email->from }}</span> -
@@ -293,11 +291,12 @@
                     </div>
                 @empty
                     <div class="email-item">
-                        <p>No emails found.</p>
+                        <p>No email found.</p>
                     </div>
                 @endforelse
             </div>
         </div>
     </div>
+    
 </body>
 </html>

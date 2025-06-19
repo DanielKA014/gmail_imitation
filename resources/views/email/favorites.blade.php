@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Favorite Emails</title>
+    <title>Favorite Email</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         body {
@@ -162,9 +162,9 @@
 
         <div class="main-content">
             <div class="email-list">
-                @forelse($emails as $email)
+                @forelse($email as $email)
                     <div class="email-item">
-                        <form action="{{ route('emails.toggle-favorite', $email) }}" method="POST">
+                        <form action="{{ route('email.toggle-favorite', $email) }}" method="POST">
                             @csrf
                             <button type="submit" class="star-btn">
                                 <i class="fas fa-star"></i>
@@ -172,7 +172,7 @@
                         </form>
 
                         <div class="email-content">
-                            <a href="{{ route('emails.show', $email) }}" class="email-link">
+                            <a href="{{ route('email.show', $email) }}" class="email-link">
                                 <div class="email-subject">{{ $email->subject }}</div>
                                 <div class="email-sender">From: {{ $email->from }}</div>
                                 <div class="email-preview">{{ Str::limit($email->body, 100) }}</div>
@@ -185,7 +185,7 @@
                     </div>
                 @empty
                     <div class="email-item">
-                        <p>No favorite emails found.</p>
+                        <p>No favorite email found.</p>
                     </div>
                 @endforelse
             </div>

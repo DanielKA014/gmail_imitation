@@ -14,7 +14,7 @@
             <th>body</th>
             <th>file</th>
         </tr>
-        @foreach ($emails as $email)
+        @foreach ($email as $email)
         <tr>
             <td>{{ $email->from }}</td>
             <td>{{ $email->to }}</td>

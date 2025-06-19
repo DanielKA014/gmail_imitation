@@ -13,7 +13,7 @@ class FavoriteEmailController extends Controller
     public function addToFavorites(Request $request)
     {
         $request->validate([
-            'email_id' => 'required|exists:emails,id',
+            'email_id' => 'required|exists:email,id',
         ]);
 
         $favoriteEmail = new Favorite();
@@ -25,7 +25,7 @@ class FavoriteEmailController extends Controller
     }
 
     /**
-     * Retrieve the list of favorite emails.
+     * Retrieve the list of favorite email.
      */
     public function getFavorites()
     {

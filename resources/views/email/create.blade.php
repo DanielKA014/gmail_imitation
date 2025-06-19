@@ -27,7 +27,7 @@
             </div>
         @endif
 
-        <form action="{{ route('emails.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('email.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label>From:</label>

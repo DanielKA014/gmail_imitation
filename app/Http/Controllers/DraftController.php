@@ -13,7 +13,7 @@ class DraftController extends Controller
     {
         $drafts = Email::where('from', auth()->user()->email)->where('is_draft', true)->get();
 
-        return view('emails.drafts', compact('drafts'));
+        return view('email.drafts', compact('drafts'));
     }
 
     /**
