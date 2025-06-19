@@ -32,9 +32,15 @@
                             <td>{{ $draft->to ?? '-' }}</td>
                             <td>{{ $draft->subject ?? '-' }}</td>
                             <td>{{ \Illuminate\Support\Str::limit($draft->body, 50) }}</td>
-                            <td>{{ $draft->created_at->format('Y-m-d H:i') }}</td>
+                            <td>{{ $draft->created_at->format('Y-m-d H:i') }}</td>  
                             <td>
                                 <a href="{{ route('email.show', $draft->id) }}" class="btn btn-sm btn-primary">View</a>
+
+                                <form action="{{ route('draft.send', $draft->id) }}" method="POST" style="display:inline">
+                                    @csrf
+                                    @method('PUT')
+                                    <button type="submit" class="btn btn-sm btn-success">Send</button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
