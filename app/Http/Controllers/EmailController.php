@@ -11,12 +11,13 @@ class EmailController extends Controller
     public function show(Email $email)
     {
         $isFavorited = $email->favorites()->where('user_id', auth()->id())->exists();
-        return view('email.show', compact('email', 'isFavorited'));    }
+        return view('email.show', compact('email', 'isFavorited'));
+    }
 
     public function favorites()
     {
         $data = [
-            'email' => Email::whereHas('favorites', function($query) {
+            'email' => Email::whereHas('favorites', function ($query) {
                 $query->where('user_id', auth()->id());
             })->latest()->get(),
             'favoriteCount' => Favorite::where('user_id', auth()->id())->count(),
@@ -25,7 +26,7 @@ class EmailController extends Controller
 
         return view('email.favorites', $data);
     }
-    
+
     public function toggleFavorite(Email $email)
     {
         $favorite = Favorite::where([
@@ -47,18 +48,18 @@ class EmailController extends Controller
         }
 
         return back()->with('success', $message);
-        }
+    }
 
-        public function create()
-        {
-            return view('email.create');
-        }
-        public function sent()
-        {
-            $email = Email::where('from', auth()->user()->email)->get();
-            $favoriteCount = Email::where('is_favorite', true)->count();
-            return view('home', compact('email', 'favoriteCount'));
-        }
+    public function create()
+    {
+        return view('email.create');
+    }
+    public function sent()
+    {
+        $email = Email::where('from', auth()->user()->email)->get();
+        $favoriteCount = Email::where('is_favorite', true)->count();
+        return view('home', compact('email', 'favoriteCount'));
+    }
 
     public function store(Request $request)
     {
@@ -68,6 +69,10 @@ class EmailController extends Controller
             'body' => 'required',
             'image' => 'nullable|image|max:2048' // max 2MB
         ]);
+
+        if ($request->to === auth()->user()->email){
+            return back()->withErrors('Tidak bisa mengirim email ke alamat sendiri!');
+        }
 
         $filePath = null;
         if ($request->hasFile('image')) {
@@ -81,7 +86,7 @@ class EmailController extends Controller
             'from' => auth()->user()->email,
             'subject' => $validated['subject'],
             'body' => $validated['body'],
-            'file_path' => $filePath,  
+            'file_path' => $filePath,
             'is_draft' => $isDraft,
         ]);
 
@@ -178,7 +183,7 @@ class EmailController extends Controller
         $email->update([
             'to' => $validated['to'],
             'subject' => $validated['subject'],
-            'body' => $validated['body'], 
+            'body' => $validated['body'],
         ]);
 
         return redirect()->route('drafts.index')->with('success', 'Draft updated successfully.');

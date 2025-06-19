@@ -14,11 +14,23 @@ class HomeController extends Controller
     public function index()
     {
         try {
+            $userEmail = auth()->user()->email;
+
+            $emails = Email::where(function ($query) use ($userEmail) {
+                $query->where('from', $userEmail)
+                    ->orWhere('to', $userEmail);
+            })
+                ->where('is_draft', false)
+                ->latest()
+                ->get();
+
             $viewData = [
-                'email' => Email::latest()->get(),
-                'favoriteCount' => Email::where('is_favorite', true)->count(),
-                'sentCount' => Email::where('is_draft', false)->count(),
-                'draftCount' => Email::where('is_draft', true)->count(),
+                'email' => $emails,
+                'favoriteCount' => Email::whereHas('favorites', function ($q) {
+                    $q->where('user_id', auth()->id());
+                })->count(),
+                'sentCount' => Email::where('from', $userEmail)->where('is_draft', false)->count(),
+                'draftCount' => Email::where('from', $userEmail)->where('is_draft', true)->count(),
             ];
 
             return view('home', $viewData);
