@@ -63,7 +63,7 @@ class EmailController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'to' => 'required|email',
+            'to' => ['required|email', 'exists:user:email'],
             'subject' => 'required',
             'body' => 'required',
             'image' => 'nullable|image|max:2048' // max 2MB
