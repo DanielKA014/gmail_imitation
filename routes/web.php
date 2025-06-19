@@ -22,3 +22,4 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('auth')->get('/emails/all', [EmailController::class, 'viewAll']);
 
+Route::post('/emails/send', [EmailController::class, 'send'])->name('emails.send');

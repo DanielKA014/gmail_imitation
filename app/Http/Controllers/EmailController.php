@@ -31,33 +31,34 @@ class EmailController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, $id = null, $isDraft = false)
-    {
-        $validated = $request->validate([
-            "to"=>["required","exist:users,id"],
-            "subject"=>["required","string"],
-            "body"=>["required","string"],
-            "file"=>["nullable","file","max:20480"], //max image 20mb
-        ]);
+    public function store(Request $request)
+{
+    $validated = $request->validate([
+        'to' => ['required', 'email'], // ← ini aku betulin: pisahkan required dan email
+        'subject' => 'required',
+        'body' => 'required',
+        'image' => 'nullable|image|max:2048' // max 2MB
+    ]);
 
-        // Simpan file jika ada
-        if ($request->hasFile('file')) {
-            $validated['file_path'] = $request->file('file')->store('attachments', 'public');
-        }
-
-        $validated['from'] = auth()->id();
-        $validated['is_draft'] = $request->action === $isDraft;
-
-        if ($id) {
-            Email::where('id', $id)->update($validated);
-        } else {
-            Email::create($validated);
-        }
-
-        Email::create($validated);
-
-        return redirect()->route('email.index')->with('success', $isDraft ? 'Disimpan ke draft' : 'Email dikirim');
+    $filePath = null;
+    if ($request->hasFile('image')) {
+        $filePath = $request->file('image')->store('email-images', 'public');
     }
+
+    $isDraft = $request->input('action') === 'draft';
+
+    Email::create([
+        'to' => $validated['to'],
+        'from' => auth()->user()->email,
+        'subject' => $validated['subject'],
+        'body' => $validated['body'],
+        'file_path' => $filePath,  
+        'is_draft' => $isDraft, // ← ini penting biar bisa simpan sebagai draft atau send
+    ]);
+
+    return redirect()->route('home')->with('success', $isDraft ? 'Email disimpan sebagai draf' : 'Email berhasil dikirim');
+}
+
 
     /**
      * Display the specified resource.
@@ -137,6 +138,7 @@ public function viewAll()
     return view('email.all', compact('emails'));
 
 }
+
 
 
 }

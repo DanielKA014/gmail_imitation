@@ -47,4 +47,18 @@
     </script>
 </body>
 
+<form action="{{ route('emails.send') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+
+    <!-- input email, subject, body, dan lampiran -->
+    <input type="email" name="to" required>
+    <input type="text" name="subject" required>
+    <textarea name="body" required></textarea>
+    <input type="file" name="image">
+
+    <!-- Tombol kirim -->
+    <button type="submit" name="action" value="send">Send</button>
+</form>
+
+
 </html>
