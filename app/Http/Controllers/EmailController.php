@@ -56,7 +56,12 @@ class EmailController extends Controller
     }
     public function sent()
     {
-        $email = Email::where('from', auth()->user()->email)->get();
+
+        $email = Email::where('from', auth()->user()->email)
+        ->where('is_draft', false)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
          $viewData = [
             'email' => $email,
             'favoriteCount' => Email::whereHas('favorites', function ($q) {
