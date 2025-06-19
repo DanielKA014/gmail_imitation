@@ -51,7 +51,7 @@ class EmailController extends Controller
 
     public function create()
     {
-        return view('email.create');
+        return view('emails.create');
     }
     public function sent()
     {
