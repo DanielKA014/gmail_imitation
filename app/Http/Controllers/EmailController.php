@@ -47,18 +47,18 @@ class EmailController extends Controller
         }
 
         return back()->with('success', $message);
-    }
+        }
 
-    public function create()
-    {
-        return view('emails.create');
-    }
-    public function sent()
-    {
-        $emails = Email::where('from', auth()->user()->email)->get();
-        $favoriteCount = Email::where('is_favorite', true)->count();
-        return view('home', compact('emails', 'favoriteCount'));
-    }
+        public function create()
+        {
+            return view('email.create');
+        }
+        public function sent()
+        {
+            $email = Email::where('from', auth()->user()->email)->get();
+            $favoriteCount = Email::where('is_favorite', true)->count();
+            return view('home', compact('email', 'favoriteCount'));
+        }
 
     public function store(Request $request)
     {
