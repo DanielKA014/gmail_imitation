@@ -60,8 +60,8 @@ class EmailController extends Controller
             return view('home', compact('email', 'favoriteCount'));
         }
 
-    public function store(Request $request)
-    {
+        public function store(Request $request)
+        {
         $validated = $request->validate([
             'to' => ['required', 'email', 'exists:users,email'],
             'subject' => 'required',
@@ -72,7 +72,7 @@ class EmailController extends Controller
         $filePath = null;
         if ($request->hasFile('image')) {
             $filePath = $request->file('image')->store('email-images', 'public');
-    }
+        }
 
         Email::create([
             'to' => $validated['to'],
@@ -83,7 +83,7 @@ class EmailController extends Controller
             'is_draft' => false,
         ]);
 
-        return redirect()->route('home')->with('success', 'Email berhasil dikirim');
+        return redirect()->route('home')->with('success', $isDraft ? 'Email disimpan sebagai draf' : 'Email berhasil dikirim');
     }
 
     /**
@@ -166,6 +166,7 @@ class EmailController extends Controller
         ]);
     }
     
+
     // public function apiIndex(Request $request)
     // {
     //     $user = auth()->user();
