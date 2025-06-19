@@ -74,16 +74,20 @@ class EmailController extends Controller
             $filePath = $request->file('image')->store('email-images', 'public');
         }
 
+        $isDraft = $request->input('action') === 'draft';
+
         Email::create([
             'to' => $validated['to'],
             'from' => auth()->user()->email,
             'subject' => $validated['subject'],
             'body' => $validated['body'],
             'file_path' => $filePath,  
-            'is_draft' => false,
+            'is_draft' => $isDraft,
         ]);
 
-        return redirect()->route('home')->with('success', 'Email sent successfully');
+        $message = $isDraft ? 'Draft saved successfully' : 'Email sent successfully';
+
+        return redirect()->route('home')->with('success', $message);
     }
 
     /**
@@ -157,4 +161,27 @@ class EmailController extends Controller
             'data' => $sentEmail
         ]);
     }
+
+    public function update(Request $request, Email $email)
+    {
+        // Pastikan hanya bisa update draft, bukan email terkirim
+        if ($email->is_draft === false || $email->from !== auth()->user()->email) {
+            abort(403); // dilarang mengedit email yang sudah terkirim
+        }
+
+        $validated = $request->validate([
+            'to' => 'required|email',
+            'subject' => 'required|string|max:255',
+            'body' => 'required|string',
+        ]);
+
+        $email->update([
+            'to' => $validated['to'],
+            'subject' => $validated['subject'],
+            'body' => $validated['body'], 
+        ]);
+
+        return redirect()->route('drafts.index')->with('success', 'Draft updated successfully.');
+    }
+
 }

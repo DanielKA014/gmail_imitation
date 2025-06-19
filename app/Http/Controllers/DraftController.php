@@ -19,7 +19,6 @@ class DraftController extends Controller
     /**
      * Menyimpan email sebagai draf.
      */
-    // DraftController.php
     public function store(Request $request)
     {
         $request->validate([
@@ -45,4 +44,27 @@ class DraftController extends Controller
 
         return redirect()->back()->with('success', 'Email disimpan sebagai draf.');
     }
+    public function drafts()
+    {
+        $drafts = Email::where('from', auth()->user()->email)
+                    ->where('is_draft', true)
+                    ->latest()
+                    ->get();
+
+        return view('email.draft', compact('drafts'));
+    }
+    public function send(Email $email)
+    {
+        // Pastikan hanya bisa kirim email yang masih draft
+        if ($email->is_draft === false || $email->from !== auth()->user()->email) {
+            abort(403, 'Forbidden');
+        }
+
+        // Kirim email: cukup ubah status is_draft jadi false
+        $email->is_draft = false;
+        $email->save();
+
+        return redirect()->route('email.sent')->with('success', 'Draft berhasil dikirim.');
+    }
+
 }
