@@ -31,6 +31,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/email', [EmailController::class, 'store'])->name('email.store');
     Route::get('/email/favorites', [EmailController::class, 'favorites'])->name('email.favorites');
     Route::get('/email/drafts', [DraftController::class, 'index'])->name('email.drafts');
+    Route::put('/drafts/send/{email}', [DraftController::class, 'send'])->name('draft.send');
+
+    // harus paling bawah
     Route::resource('email', EmailController::class);
 });
 
