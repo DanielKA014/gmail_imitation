@@ -11,19 +11,19 @@ class EmailController extends Controller
     public function show(Email $email)
     {
         $isFavorited = $email->favorites()->where('user_id', auth()->id())->exists();
-        return view('emails.show', compact('email', 'isFavorited'));    }
+        return view('email.show', compact('email', 'isFavorited'));    }
 
     public function favorites()
     {
         $data = [
-            'emails' => Email::whereHas('favorites', function($query) {
+            'email' => Email::whereHas('favorites', function($query) {
                 $query->where('user_id', auth()->id());
             })->latest()->get(),
             'favoriteCount' => Favorite::where('user_id', auth()->id())->count(),
             'sentCount' => Email::where('from', auth()->user()->email)->count()
         ];
 
-        return view('emails.favorites', $data);
+        return view('email.favorites', $data);
     }
     
     public function toggleFavorite(Email $email)
@@ -108,9 +108,9 @@ class EmailController extends Controller
      */
     public function index()
     {
-        $emails = Email::where('from', auth()->id())->where('is_draft', false)->get();
+        $email = Email::where('from', auth()->id())->where('is_draft', false)->get();
 
-        return view('email.index', compact('emails'));
+        return view('email.index', compact('email'));
     }
 
     /**
@@ -134,11 +134,11 @@ class EmailController extends Controller
         }
 
         // Pagination 10 per halaman
-        $emails = $query->paginate(10);
+        $email = $query->paginate(10);
 
         return response()->json([
             'status' => 'success',
-            'data' => $emails
+            'data' => $email
         ]);
     }
 
@@ -146,23 +146,23 @@ class EmailController extends Controller
     {
 
         $user = auth()->user();
-        $emails = Email::where('from', $user->id)->get();
-        return view('email.all', compact('emails'));
+        $email = Email::where('from', $user->id)->get();
+        return view('email.all', compact('email'));
 
     }
 
-    public function getSentEmails()
+    public function getSentEmail()
     {
         $user = auth()->user();
 
-        $sentEmails = Email::where('from', $user->id)
+        $sentEmail = Email::where('from', $user->id)
             ->where('is_draft', false)
             ->orderBy('created_at', 'desc')
             ->get();
 
         return response()->json([
             'status' => 'success',
-            'data' => $sentEmails
+            'data' => $sentEmail
         ]);
     }
     

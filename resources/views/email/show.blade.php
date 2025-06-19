@@ -107,7 +107,7 @@
                 <i class="fas fa-arrow-left"></i> Back
             </button>
             
-            <form action="{{ route('emails.toggle-favorite', $email) }}" method="POST" style="display: inline;">
+            <form action="{{ route('email.toggle-favorite', $email) }}" method="POST" style="display: inline;">
                 @csrf
                 <button type="submit" class="star-btn {{ $isFavorited ? 'active' : '' }}">
                     <i class="fas fa-star"></i>

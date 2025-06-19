@@ -54,7 +54,7 @@
 <body>
     <div class="wrapper">
         <div class="sidebar">
-            <button class="compose-btn" onclick="window.location.href='{{ route('emails.create') }}'">
+            <button class="compose-btn" onclick="window.location.href='{{ route('email.create') }}'">
                 <i class="fas fa-plus"></i> Compose
             </button>
             
@@ -66,10 +66,10 @@
                     <i class="fas fa-star"></i> Starred
                 </div>
                 <div class="menu-item">
-                    <i class="fas fa-file"></i> Drafts
+                    <i class="fas fa-paper-plane"></i> Sent
                 </div>
                 <div class="menu-item">
-                    <i class="fas fa-paper-plane"></i> Sent
+                    <i class="fas fa-file"></i> Drafts
                 </div>
             @show
         </div>

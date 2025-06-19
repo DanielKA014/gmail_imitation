@@ -12,7 +12,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($emails as $email)
+            @foreach($email as $email)
                 <tr>
                     <td>{{ $email->subject }}</td>
                     <td>{{ $email->body }}</td>
