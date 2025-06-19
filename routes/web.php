@@ -46,3 +46,12 @@ Route::delete('/user/delete/{id}', [UserController::class, 'destroy'])->name('us
 Route::middleware(['auth'])->get('user/delete', function () {
     return view('auth.delete');
 })->name('user.delete.confirm');
+
+
+// Route::middleware('auth')->group(function () {
+//     Route::get('/api/emails/sent', [EmailController::class, 'getSentEmails']);
+// });
+
+// Route::middleware('auth')->get('/emails/all', [EmailController::class, 'viewAll']);
+
+// Route::post('/emails/send', [EmailController::class, 'send'])->name('emails.send');

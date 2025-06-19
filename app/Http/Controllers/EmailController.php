@@ -47,21 +47,21 @@ class EmailController extends Controller
         }
 
         return back()->with('success', $message);
-    }
+        }
 
-    public function create()
-    {
-        return view('emails.create');
-    }
-    public function sent()
-    {
-        $emails = Email::where('from', auth()->user()->email)->get();
-        $favoriteCount = Email::where('is_favorite', true)->count();
-        return view('home', compact('emails', 'favoriteCount'));
-    }
+        public function create()
+        {
+            return view('emails.create');
+        }
+        public function sent()
+        {
+            $emails = Email::where('from', auth()->user()->email)->get();
+            $favoriteCount = Email::where('is_favorite', true)->count();
+            return view('home', compact('emails', 'favoriteCount'));
+        }
 
-    public function store(Request $request)
-    {
+        public function store(Request $request)
+        {
         $validated = $request->validate([
             'to' => ['required', 'email', 'exists:users,email'],
             'subject' => 'required',
@@ -83,7 +83,15 @@ class EmailController extends Controller
             'is_draft' => false,
         ]);
 
-        return redirect()->route('home')->with('success', 'Email sent successfully');
+        return redirect()->route('home')->with('success', $isDraft ? 'Email disimpan sebagai draf' : 'Email berhasil dikirim');
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
     }
 
     /**
@@ -157,4 +165,30 @@ class EmailController extends Controller
             'data' => $sentEmails
         ]);
     }
+    
+
+    // public function apiIndex(Request $request)
+    // {
+    //     $user = auth()->user();
+
+    //     $query = Email::where('from', $user->id)->where('is_draft', false);
+
+    //     // Optional: filter by subject if query param 'subject' diberikan
+    //     if ($request->has('subject')) {
+    //         $query->where('subject', 'like', '%' . $request->subject . '%');
+    //     }
+
+    //     // Pagination 10 per halaman
+    //     $emails = $query->paginate(10);
+
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'data' => $emails
+    //     ]);
+    // }
+
 }
+
+
+
+
