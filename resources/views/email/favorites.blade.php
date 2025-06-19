@@ -167,7 +167,7 @@
                         <form action="{{ route('email.toggle-favorite', $email) }}" method="POST">
                             @csrf
                             <button type="submit" class="star-btn">
-                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"  style="color: #f4b400;"></i>
                             </button>
                         </form>
 
